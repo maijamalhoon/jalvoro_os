@@ -89,7 +89,7 @@ public final class MainActivity extends Activity {
         title.setTypeface(Typeface.DEFAULT, Typeface.BOLD); card.addView(title);
         TextView description = new TextView(this);
         description.setText(descRes); description.setTextColor(color(R.color.muted)); description.setTextSize(13);
-        LinearLayout.LayoutParams dp = params(); dp.topMargin = this.dp(4); card.addView(description, dp);
+        LinearLayout.LayoutParams descParams = params(); descParams.topMargin = dp(4); card.addView(description, descParams);
 
         card.setOnClickListener(v -> openSettings(action));
         LinearLayout.LayoutParams cp = params(); cp.bottomMargin = dp(10); page.addView(card, cp);
