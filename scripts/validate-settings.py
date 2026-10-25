@@ -14,7 +14,8 @@ def fail(message: str) -> None:
     raise SystemExit(1)
 
 
-xml_files = [APP / "AndroidManifest.xml"] + sorted((APP / "res").rglob("*.xml"))
+manifest_path = APP / "AndroidManifest.xml"
+xml_files = [manifest_path] + sorted((APP / "res").rglob("*.xml"))
 roots = {}
 resources = {}
 for path in xml_files:
@@ -23,7 +24,7 @@ for path in xml_files:
     except (ET.ParseError, OSError) as exc:
         fail(f"invalid XML at {path.relative_to(ROOT)}: {exc}")
     roots[path] = root
-    if path != APP / "AndroidManifest.xml":
+    if path != manifest_path:
         if root.tag != "resources":
             fail(f"{path.relative_to(ROOT)} must have a resources root")
         for element in list(root):
@@ -32,10 +33,10 @@ for path in xml_files:
                 fail(f"unnamed resource in {path.relative_to(ROOT)}")
             resources.setdefault(element.tag, set()).add(name)
 
-manifest = roots[APP / "AndroidManifest.xml"]
+manifest = roots[manifest_path]
 java_path = APP / "src/com/jalvoro/settings/MainActivity.java"
 java = java_path.read_text(encoding="utf-8")
-for source in [APP / "AndroidManifest.xml", java_path] + [p for p in xml_files if p != APP / "AndroidManifest.xml"]:
+for source in [manifest_path, java_path] + [p for p in xml_files if p != manifest_path]:
     content = source.read_text(encoding="utf-8")
     for kind, name in re.findall(r"@(string|color|style)/([A-Za-z0-9_]+)", content):
         if name not in resources.get(kind, set()):
@@ -44,7 +45,7 @@ for source in [APP / "AndroidManifest.xml", java_path] + [p for p in xml_files i
         if name not in resources.get(kind, set()):
             fail(f"{source.relative_to(ROOT)} references missing {kind} '{name}'")
 
-if "android.intent.category.LAUNCHER" not in manifest.read_text(encoding="utf-8"):
+if "android.intent.category.LAUNCHER" not in manifest_path.read_text(encoding="utf-8"):
     fail("Settings app has no launcher intent filter")
 if "openSystemPage(action)" not in java:
     fail("Settings cards are not wired to Android settings actions")
