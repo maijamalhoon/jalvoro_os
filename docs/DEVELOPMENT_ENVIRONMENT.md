@@ -8,6 +8,7 @@ This document defines a reproducible, cautious setup path for the Jalvoro OS AOS
 - Adds host preflight scripts for CPU, memory, disk, Java, repo, and KVM checks.
 - Provides an optional Windows PowerShell helper to request WSL2 + Ubuntu installation.
 - Provides a guarded AOSP source-sync helper that checks available disk space and asks for explicit confirmation.
+- Provides a guarded integration helper to copy Jalvoro apps and the product fragment into an existing AOSP checkout without overwriting existing paths.
 - Does **not** run a full AOSP build, create signing keys, flash a device, or claim that Jalvoro is bootable.
 
 ## Host recommendation
@@ -74,21 +75,34 @@ Official references:
 
 ## 4. Source and build workflow (after baseline approval)
 
-The repository includes a guarded helper:
+Sync source into a new dedicated directory:
 
 ```bash
 bash scripts/sync-aosp.sh "$HOME/aosp/jalvoro-android17" android17-release 8
 ```
 
-It requires an x86_64 Linux host, the `repo` launcher, at least 400 GiB free on the destination filesystem, and the exact word `YES` before starting a large download. It refuses to overwrite non-empty directories. Choose a new dedicated path for each checkout. The helper syncs source only; it does not build.
+It requires an x86_64 Linux host, the `repo` launcher, at least 400 GiB free on the destination filesystem, and the exact word `YES` before starting a large download. It refuses to overwrite non-empty directories. The helper syncs source only; it does not build.
 
-After sync:
+After sync, copy both app modules and the product fragment into the checkout:
 
-1. Inspect the checked-out branch's build instructions and confirm the exact Cuttlefish x86_64 lunch target.
-2. Integrate `device/jalvoro/common/jalvoro_apps.mk` into the chosen product makefile.
-3. Build the apps with `m JalvoroLauncher JalvoroSettings`, then build the selected product image.
-4. Launch the matching Cuttlefish image and run smoke tests. `scripts/smoke-test-device.sh` checks boot completion and basic system identity; it is not a substitute for compatibility tests.
-5. Once the target is confirmed, `scripts/build-aosp.sh` can run `lunch` and `m` against the existing source checkout. It deliberately does not sync source or select a branch.
+```bash
+bash scripts/integrate-aosp-apps.sh "$HOME/aosp/jalvoro-android17"
+```
+
+The integration helper also requires explicit `YES` confirmation and refuses to overwrite existing destination paths. It does not edit your selected product makefile.
+
+Then:
+
+1. Add this line to the selected product's makefile:
+
+   ```make
+   $(call inherit-product, device/jalvoro/common/jalvoro_apps.mk)
+   ```
+
+2. Confirm the exact Cuttlefish x86_64 lunch target supported by that branch.
+3. Build the app modules with `m JalvoroLauncher JalvoroSettings`.
+4. Build the selected product image and launch it in Cuttlefish.
+5. Run `scripts/smoke-test-device.sh` from this repository against the running emulator. It checks boot completion and basic system identity; it is not a substitute for compatibility tests.
 6. Track local changes as patches/branches; never silently replace upstream files.
 7. Add platform tests and CTS/VTS work as features mature.
 
