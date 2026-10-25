@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jalvoro Home</string>
+    <string name="brand_name">JALVORO</string>
+    <string name="home_welcome">A calmer home for everything.</string>
+    <string name="search_apps_hint">Search apps</string>
+    <string name="your_apps">YOUR APPS</string>
+    <string name="no_apps_found">No launchable apps found.</string>
+    <string name="no_apps_match">No apps match “%1$s”.</string>
+    <string name="app_open_failed">This app could not be opened.</string>
+    <string name="prototype_footer">Jalvoro OS • Early prototype</string>
+</resources>
