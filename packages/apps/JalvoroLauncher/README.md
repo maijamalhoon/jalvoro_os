@@ -10,11 +10,12 @@ This is an AOSP Soong application module for the Jalvoro home screen, using Andr
 - Shows app icons and alphabetically sorted labels.
 - Filters the app list as the user types.
 - Opens selected apps and handles launch failures.
-- Uses density-aware layouts and basic accessibility descriptions.
+- Uses density-aware layouts, basic accessibility descriptions, and a responsive 3–6 column app grid.
+- Does not request privileged-app status or broad package visibility.
 
 ## Build inside AOSP
 
-Place this directory at `packages/apps/JalvoroLauncher` in an AOSP checkout, then include both Jalvoro app modules in the selected product's package list:
+Place this directory at `packages/apps/JalvoroLauncher` in an AOSP checkout, then include all three Jalvoro app modules in the selected product's package list:
 
 ```make
 PRODUCT_PACKAGES += \
@@ -32,4 +33,4 @@ To make it the default home app, the product must ensure no competing HOME activ
 
 ## Scope and limitations
 
-This is a starter launcher, not a replacement for Android SystemUI. Widgets, recents, gestures, folders, dock favorites, dynamic theming, lock screen, quick settings, and offline AI are not implemented. The app has not yet been compiled against a synced AOSP tree or tested on Cuttlefish.
+This is a starter launcher, not a replacement for Android SystemUI. Widgets, recents, gestures, folders, dock favorites, dynamic theming, lock screen, privileged quick settings, and offline AI are not implemented. The app has not yet been compiled against a synced AOSP tree or tested on Cuttlefish.
