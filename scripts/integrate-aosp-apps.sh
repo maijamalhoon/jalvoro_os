@@ -68,11 +68,12 @@ cp -a "${sources[0]}" "$aosp_root/packages/apps/"
 cp -a "${sources[1]}" "$aosp_root/packages/apps/"
 cp -a "${sources[2]}" "$aosp_root/device/jalvoro/common/"
 
+include_line='$(call inherit-product, device/jalvoro/common/jalvoro_apps.mk)'
 cat <<EOF
 
 Files copied. Next:
   1. Add this line to the selected product's makefile:
-     $(call inherit-product, device/jalvoro/common/jalvoro_apps.mk)
+     $include_line
   2. Confirm the exact lunch target for this AOSP branch.
   3. Build the app modules:
      m JalvoroLauncher JalvoroSettings
