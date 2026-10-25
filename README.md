@@ -77,6 +77,7 @@ The repository includes:
 - `scripts/prepare-wsl.ps1` — optional Windows helper to request WSL2 + Ubuntu installation.
 - `scripts/setup-ubuntu.sh` — interactive Ubuntu dependency bootstrap.
 - `scripts/check-host.sh` — host diagnostic report.
+- `scripts/sync-aosp.sh` — guarded AOSP source sync with free-space checks and explicit confirmation.
 - `scripts/build-aosp.sh` — guarded build helper for a source checkout and explicitly selected branch target.
 - `scripts/smoke-test-device.sh` — basic ADB boot and system identity smoke test.
 - `scripts/validate-repo.sh`, `scripts/validate-launcher.sh`, and Python resource validators — source-level and repository checks.
