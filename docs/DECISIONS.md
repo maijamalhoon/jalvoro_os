@@ -36,7 +36,7 @@ Use this log for decisions that materially affect architecture, security, build 
 
 ## Open decisions — do not guess
 
-- **D-006 — Android release/branch:** choose after current official requirements and Cuttlefish target support are checked.
+- **D-006 — Android release/branch:** proposed Android 17 release line (`android17-release`) as the first baseline candidate, based on the current official AOSP requirements page. Re-check branch and target support before sync; record the exact manifest revision after checkout.
 - **D-007 — Host environment:** native Ubuntu versus WSL2; based on the actual PC audit.
 - **D-008 — Initial UI implementation:** launcher prototype versus platform overlays/SystemUI; decide from the first UX requirements.
 - **D-009 — Original-code licence:** decide before accepting external contributions or publishing reusable libraries.
