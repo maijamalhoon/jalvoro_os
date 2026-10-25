@@ -102,7 +102,7 @@ public final class MainActivity extends Activity {
         card.setContentDescription(getString(titleRes) + ". " + getString(descRes));
 
         TextView symbol = new TextView(this);
-        symbol.setText("•");
+        symbol.setText(symbolFor(titleRes));
         symbol.setTextColor(color(R.color.accent));
         symbol.setTextSize(25);
         symbol.setGravity(Gravity.CENTER);
@@ -140,6 +140,17 @@ public final class MainActivity extends Activity {
         cardParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         cardParams.setMargins(dp(0), dp(0), dp(10), dp(10));
         grid.addView(card, cardParams);
+    }
+
+    private String symbolFor(int titleRes) {
+        if (titleRes == R.string.wifi) return "W";
+        if (titleRes == R.string.bluetooth) return "B";
+        if (titleRes == R.string.display) return "D";
+        if (titleRes == R.string.sound) return "S";
+        if (titleRes == R.string.battery) return "P";
+        if (titleRes == R.string.privacy) return "L";
+        if (titleRes == R.string.about) return "i";
+        return "•";
     }
 
     private void openSettings(String action) {
