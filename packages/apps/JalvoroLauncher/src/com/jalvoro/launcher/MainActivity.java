@@ -3,6 +3,7 @@ package com.jalvoro.launcher;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
@@ -57,6 +58,16 @@ public final class MainActivity extends Activity {
             loadApps();
             renderApps(search == null ? "" : search.getText().toString());
             updateDateTime();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // This activity handles rotation in-place, so rebuild the app grid using
+        // the newly available width rather than keeping the old column count.
+        if (appList != null) {
+            renderApps(search == null ? "" : search.getText().toString());
         }
     }
 
