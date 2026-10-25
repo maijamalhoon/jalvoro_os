@@ -25,6 +25,8 @@ A Soong app module at [packages/apps/JalvoroLauncher](packages/apps/JalvoroLaunc
 - Localized date/time display and app icons.
 - Launchable-app discovery using scoped package visibility.
 - Live app-name search/filter and app launching.
+- Responsive 3–6 column app grid that reflows after rotation.
+- Non-privileged packaging with no broad package visibility permission.
 - Light and dark resource palettes that follow Android's day/night theme configuration.
 
 ### Jalvoro Settings
@@ -49,7 +51,7 @@ A Soong app module at [packages/apps/JalvoroControlCenter](packages/apps/Jalvoro
 
 `device/jalvoro/common/jalvoro_apps.mk` adds all three apps to `PRODUCT_PACKAGES`. See [product integration notes](device/jalvoro/common/README.md) for how to include it from an AOSP product makefile.
 
-**Important:** Both apps are prototypes. The Settings app is a styled entry point to existing Android settings, not yet a replacement for AOSP Settings. Neither module has been compiled against a synced AOSP tree or boot-tested on Cuttlefish. See [Implemented Code Inventory](docs/IMPLEMENTED_CODE.md).
+**Important:** All three apps are prototypes. Settings and Control Center are styled entry points to existing Android settings, not replacements for AOSP Settings or privileged SystemUI. The launcher and Settings hub are packaged as non-privileged apps. None of the modules has been compiled against a synced AOSP tree or boot-tested on Cuttlefish. See [Implemented Code Inventory](docs/IMPLEMENTED_CODE.md).
 
 ## Planned experience
 
