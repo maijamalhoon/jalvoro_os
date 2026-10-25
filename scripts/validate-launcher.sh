@@ -22,6 +22,6 @@ for file in "${required[@]}"; do
 done
 
 grep -q 'android.intent.category.HOME' "$app/AndroidManifest.xml"
-grep -q 'android.intent.category.LAUNCHER' "$app/src/com/jalvoro/launcher/MainActivity.java"
+grep -q 'Intent.CATEGORY_LAUNCHER' "$app/src/com/jalvoro/launcher/MainActivity.java"
 grep -q 'android_app' "$app/Android.bp"
 printf 'Jalvoro launcher source checks passed. (This is not an Android compile.)\n'
