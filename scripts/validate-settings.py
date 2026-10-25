@@ -45,6 +45,9 @@ for source in [manifest_path, java_path] + [p for p in xml_files if p != manifes
         if name not in resources.get(kind, set()):
             fail(f"{source.relative_to(ROOT)} references missing {kind} '{name}'")
 
+bp_path = APP / "Android.bp"
+if "privileged: false" not in bp_path.read_text(encoding="utf-8"):
+    fail("Settings hub must remain non-privileged unless a reviewed system feature requires otherwise")
 if "android.intent.category.LAUNCHER" not in manifest_path.read_text(encoding="utf-8"):
     fail("Settings app has no launcher intent filter")
 if "openSystemPage(action)" not in java:
