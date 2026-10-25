@@ -11,6 +11,7 @@ Location: `packages/apps/JalvoroLauncher/`
 - Date and time based on device locale/settings.
 - Launchable-app discovery through scoped package visibility.
 - App icons, sorted names, live filtering and app launching.
+- Resource-based light/dark palettes and themes using Android's day/night resource qualifiers.
 - Density-aware layout and basic focus/content descriptions.
 
 ## Jalvoro Settings
@@ -21,6 +22,7 @@ Location: `packages/apps/JalvoroSettings/`
 - Sections for Display, Sound, Storage, Wi-Fi, Bluetooth, Privacy, Security, Apps and About.
 - Uses Android's standard settings intents for the underlying configuration.
 - Localized resources, accessibility descriptions and graceful handling for missing target activities.
+- Matching light/dark palettes and themes based on Android's day/night resource qualifiers.
 
 This is a navigation hub, not a replacement for AOSP Settings or custom system services.
 
@@ -37,10 +39,10 @@ This is a navigation hub, not a replacement for AOSP Settings or custom system s
    ```
 
 4. Build the modules with `m JalvoroLauncher JalvoroSettings`, then build the product image.
-5. Boot the image in Cuttlefish. Verify HOME resolution, app visibility/search/launch, settings destinations, rotation, accessibility, and app behavior on the selected Android branch.
+5. Boot the image in Cuttlefish. Verify HOME resolution, app visibility/search/launch, settings destinations, day/night mode, rotation, accessibility, and app behavior on the selected Android branch.
 
 ## Validation and limitations
 
-GitHub Actions currently validates repository structure, Bash syntax, Android XML syntax, resource references, launcher package visibility and basic source wiring. **These checks are not an Android compile.**
+GitHub Actions validates repository structure, Bash/Python syntax, Android XML, resource references, launcher package visibility and basic source wiring. **These checks are not an Android compile.**
 
 No AOSP source tree has been synced in this environment. The modules have not been compiled, installed, booted or CTS-tested. A bootable Jalvoro OS image, custom SystemUI, framework changes, device integration, update signing and optional offline AI remain unimplemented. Do not describe the repository as a finished or bootable operating system until the product image is built and verified.
