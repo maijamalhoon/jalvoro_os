@@ -5,11 +5,13 @@ Items are goals, not completed capabilities unless verified in an issue or relea
 ## Phase 0 — Foundation
 - [x] Create project repository
 - [x] Document vision, proposed architecture, and engineering principles
+- [x] Add host setup helpers and repository validation script
+- [x] Document Android platform layers, feature backlog, release gates, AI policy, and test matrix
 - [ ] Audit development PC (CPU, RAM, free storage, GPU, OS)
 - [ ] Select and pin an AOSP branch
 - [ ] Decide visibility and original-code licence
 
-**Exit gate:** host and target branch selected using current official requirements.
+**Exit gate:** host and target branch selected using current official requirements; repository checks pass.
 
 ## Phase 1 — Reproducible baseline
 - [ ] Set up supported Ubuntu LTS
@@ -18,7 +20,7 @@ Items are goals, not completed capabilities unless verified in an issue or relea
 - [ ] Record exact steps and test results
 - [ ] Document limitations and artifact location
 
-**Exit gate:** baseline build is reproducible from documented steps.
+**Exit gate:** baseline build is reproducible from documented steps and boots successfully on the selected virtual target.
 
 ## Phase 2 — Jalvoro visual identity
 - [ ] Define typography, spacing, colour, icon, motion, and accessibility rules
