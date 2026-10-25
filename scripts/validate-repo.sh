@@ -29,6 +29,15 @@ required=(
   packages/apps/JalvoroSettings/res/values/styles.xml
   packages/apps/JalvoroSettings/res/values-night/colors.xml
   packages/apps/JalvoroSettings/res/values-night/styles.xml
+  packages/apps/JalvoroControlCenter/Android.bp
+  packages/apps/JalvoroControlCenter/AndroidManifest.xml
+  packages/apps/JalvoroControlCenter/src/com/jalvoro/controlcenter/MainActivity.java
+  packages/apps/JalvoroControlCenter/res/values/strings.xml
+  packages/apps/JalvoroControlCenter/res/values/colors.xml
+  packages/apps/JalvoroControlCenter/res/values/styles.xml
+  packages/apps/JalvoroControlCenter/res/values-night/colors.xml
+  packages/apps/JalvoroControlCenter/res/values-night/styles.xml
+  packages/apps/JalvoroControlCenter/README.md
 )
 
 fail=0
@@ -62,6 +71,7 @@ done
 
 if ! grep -q 'JalvoroLauncher' device/jalvoro/common/jalvoro_apps.mk ||
    ! grep -q 'JalvoroSettings' device/jalvoro/common/jalvoro_apps.mk ||
+   ! grep -q 'JalvoroControlCenter' device/jalvoro/common/jalvoro_apps.mk ||
    ! grep -q 'inherit-product' device/jalvoro/common/README.md; then
   printf 'AOSP PRODUCT INTEGRATION CHECKS FAILED\n' >&2
   fail=1
@@ -73,6 +83,11 @@ if ! bash scripts/validate-launcher.sh; then
 fi
 if ! python3 scripts/validate-settings.py; then
   printf 'SETTINGS SOURCE CHECKS FAILED\n' >&2
+  fail=1
+fi
+
+if ! grep -q 'JalvoroControlCenter' device/jalvoro/common/jalvoro_apps.mk || ! grep -q 'android.intent.category.LAUNCHER' packages/apps/JalvoroControlCenter/AndroidManifest.xml; then
+  printf 'CONTROL CENTER SOURCE CHECKS FAILED\n' >&2
   fail=1
 fi
 
