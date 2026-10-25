@@ -4,7 +4,8 @@ android_app {
     srcs: ["src/**/*.java"],
     platform_apis: true,
     certificate: "platform",
-    privileged: true,
+    // This app only launches public Android settings screens; no privileged access needed.
+    privileged: false,
     dex_preopt: {
         enabled: false,
     },
