@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""Validate basic XML and string-resource consistency for Jalvoro Launcher.
-
-This is a source-level check only; it does not replace aapt2, Soong, or an AOSP build.
-"""
+"""Validate Jalvoro Launcher Android XML and resource references (not a full build)."""
 from pathlib import Path
 import re
 import sys
@@ -18,43 +15,35 @@ def fail(message: str) -> None:
     raise SystemExit(1)
 
 
-manifest_path = APP / "AndroidManifest.xml"
-strings_path = APP / "res/values/strings.xml"
+xml_files = [APP / "AndroidManifest.xml"] + sorted((APP / "res").rglob("*.xml"))
+roots = {}
+resources = {}
+for path in xml_files:
+    try:
+        root = ET.parse(path).getroot()
+    except (ET.ParseError, OSError) as exc:
+        fail(f"invalid XML at {path.relative_to(ROOT)}: {exc}")
+    roots[path] = root
+    if path != APP / "AndroidManifest.xml":
+        if root.tag != "resources":
+            fail(f"{path.relative_to(ROOT)} must have a resources root")
+        for element in list(root):
+            name = element.get("name")
+            if not name:
+                fail(f"unnamed resource in {path.relative_to(ROOT)}")
+            resources.setdefault(element.tag, set()).add(name)
 
-try:
-    manifest = ET.parse(manifest_path).getroot()
-except (ET.ParseError, OSError) as exc:
-    fail(f"invalid AndroidManifest.xml: {exc}")
-
-try:
-    strings_root = ET.parse(strings_path).getroot()
-except (ET.ParseError, OSError) as exc:
-    fail(f"invalid strings.xml: {exc}")
-
-if manifest.tag != "manifest":
-    fail("manifest root element is missing")
-if strings_root.tag != "resources":
-    fail("strings.xml must have a resources root")
-
-names = []
-for item in strings_root.findall("string"):
-    name = item.get("name")
-    if not name:
-        fail("string resource without a name")
-    names.append(name)
-if len(names) != len(set(names)):
-    fail("duplicate string resource names")
-known = set(names)
-
-# Validate references used in manifest and Java sources.
-for source in (manifest_path, APP / "src/com/jalvoro/launcher/MainActivity.java"):
+manifest = roots[APP / "AndroidManifest.xml"]
+java_path = APP / "src/com/jalvoro/launcher/MainActivity.java"
+java = java_path.read_text(encoding="utf-8")
+for source in [APP / "AndroidManifest.xml", java_path] + [p for p in xml_files if p != APP / "AndroidManifest.xml"]:
     content = source.read_text(encoding="utf-8")
-    for name in re.findall(r"@string/([A-Za-z0-9_]+)", content):
-        if name not in known:
-            fail(f"{source.relative_to(ROOT)} references missing string '{name}'")
-    for name in re.findall(r"R\.string\.([A-Za-z0-9_]+)", content):
-        if name not in known:
-            fail(f"{source.relative_to(ROOT)} references missing string '{name}'")
+    for kind, name in re.findall(r"@(string|color|style)/([A-Za-z0-9_]+)", content):
+        if name not in resources.get(kind, set()):
+            fail(f"{source.relative_to(ROOT)} references missing {kind} '{name}'")
+    for kind, name in re.findall(r"R\.(string|color|style)\.([A-Za-z0-9_]+)", content):
+        if name not in resources.get(kind, set()):
+            fail(f"{source.relative_to(ROOT)} references missing {kind} '{name}'")
 
 queries = manifest.find("queries")
 if queries is None:
@@ -68,5 +57,5 @@ if not any(
 ):
     fail("manifest query must match MAIN + LAUNCHER")
 
-print(f"Android XML valid; {len(known)} unique strings; resource references and launcher visibility passed.")
+print(f"Launcher XML valid; {sum(len(v) for v in resources.values())} resource definitions; references and package visibility passed.")
 print("Note: this is not an AOSP/Soong compile.")
