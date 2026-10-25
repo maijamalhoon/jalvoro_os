@@ -78,7 +78,8 @@ Official references:
 3. Sync source; verify free disk space and preserve the sync logs.
 4. Select the exact Cuttlefish x86_64 lunch target supported by that branch.
 5. Build with `m` and conservative parallelism, then increase based on RAM and thermal behavior.
-6. Launch the matching Cuttlefish image and run smoke tests.
+6. Launch the matching Cuttlefish image and run smoke tests. The repository's `scripts/smoke-test-device.sh` checks boot completion and basic system identity; it is not a substitute for platform compatibility tests.
+7. Once the exact target is confirmed, the repository's `scripts/build-aosp.sh` can run `lunch` and `m` against the existing source checkout. It deliberately does not sync source or select a branch.
 7. Track local changes as patches/branches; never silently replace upstream files.
 8. Add platform tests and CTS/VTS work as features mature.
 
