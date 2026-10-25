@@ -17,21 +17,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-      - name: Verify required project documents
+      - name: Validate repository structure and Bash scripts
         shell: bash
-        run: |
-          set -euo pipefail
-          for file in README.md ROADMAP.md CONTRIBUTING.md SECURITY.md docs/MASTER_PLAN.md docs/ARCHITECTURE.md docs/DEVELOPMENT_ENVIRONMENT.md docs/ANDROID_STACK_MAP.md docs/TESTING.md scripts/setup-ubuntu.sh scripts/check-host.sh scripts/prepare-wsl.ps1; do
-            if [[ ! -s "$file" ]]; then
-              echo "::error::Required file is missing or empty: $file"
-              exit 1
-            fi
-          done
-          echo "Required Jalvoro OS project documents are present."
-      - name: Check shell script syntax
-        shell: bash
-        run: |
-          set -euo pipefail
-          bash -n scripts/setup-ubuntu.sh
-          bash -n scripts/check-host.sh
-          echo "Shell syntax checks passed."
+        run: bash scripts/validate-repo.sh
