@@ -9,7 +9,7 @@ required=(
   docs/MASTER_PLAN.md docs/ARCHITECTURE.md
   docs/DEVELOPMENT_ENVIRONMENT.md docs/ANDROID_STACK_MAP.md docs/TESTING.md
   docs/FEATURE_BACKLOG.md docs/DECISIONS.md docs/BUILD_AND_RELEASE.md
-  docs/AI_POLICY.md docs/TEST_MATRIX.md docs/BASELINE.md
+  docs/AI_POLICY.md docs/TEST_MATRIX.md docs/BASELINE.md docs/SYSTEM_SUBSYSTEMS.md
   scripts/setup-ubuntu.sh scripts/check-host.sh scripts/prepare-wsl.ps1
 )
 
