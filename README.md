@@ -4,7 +4,7 @@
 
 Jalvoro OS is a long-term project to explore a distinctive, privacy-conscious Android experience. The first engineering target is a virtual Android device. Physical-device support and optional Google Mobile Services are later milestones—not current claims.
 
-> **Status:** Planning and repository foundation. This repository does not yet contain a bootable Jalvoro OS image.
+> **Status:** Planning, repository foundation, and host-setup automation. This repository does not yet contain a bootable Jalvoro OS image.
 
 ## Principles
 
@@ -25,19 +25,37 @@ Jalvoro OS is a long-term project to explore a distinctive, privacy-conscious An
 
 These are goals, not implemented features, until developed and verified.
 
-## Start here
+## Project documents
 
-1. [Master plan](docs/MASTER_PLAN.md)
-2. [Proposed architecture](docs/ARCHITECTURE.md)
-3. [Roadmap](ROADMAP.md)
-4. [Contribution workflow](CONTRIBUTING.md)
-5. [Security policy](SECURITY.md)
+- [Master plan](docs/MASTER_PLAN.md)
+- [Proposed architecture](docs/ARCHITECTURE.md)
+- [Initial AOSP baseline proposal](docs/BASELINE.md)
+- [Android platform stack map](docs/ANDROID_STACK_MAP.md)
+- [Android OS subsystem inventory](docs/SYSTEM_SUBSYSTEMS.md)
+- [Development environment setup](docs/DEVELOPMENT_ENVIRONMENT.md)
+- [Feature backlog](docs/FEATURE_BACKLOG.md)
+- [Engineering decisions](docs/DECISIONS.md)
+- [Build and release policy](docs/BUILD_AND_RELEASE.md)
+- [Privacy policy for optional on-device AI](docs/AI_POLICY.md)
+- [Testing checklist](docs/TESTING.md)
+- [Cross-layer test matrix](docs/TEST_MATRIX.md)
+- [Roadmap](ROADMAP.md)
+- [Contribution workflow](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
 
-## Initial development direction
+## Development setup
 
-The intended platform-development environment is a supported Ubuntu LTS machine with enough RAM and storage for an AOSP checkout and build. The first target is an x86_64 virtual device such as Cuttlefish. The exact Android branch and host requirements will be pinned after the development machine is audited.
+The repository includes:
+- `scripts/prepare-wsl.ps1` — optional Windows helper to request WSL2 + Ubuntu installation.
+- `scripts/setup-ubuntu.sh` — interactive Ubuntu dependency bootstrap.
+- `scripts/check-host.sh` — host diagnostic report.
+- `scripts/build-aosp.sh` — guarded build helper for a source checkout and explicitly selected branch target.
+- `scripts/smoke-test-device.sh` — basic ADB boot and system identity smoke test.
+- `scripts/validate-repo.sh` — required-file and Bash syntax validation.
 
-**Do not download or build a full AOSP tree until the target branch and machine capacity are confirmed.**
+Start with [Development Environment](docs/DEVELOPMENT_ENVIRONMENT.md). Inspect scripts before running them. The setup scripts do not fetch AOSP source, build Android, create signing keys, or flash devices.
+
+**Do not download or build a full AOSP tree until the target branch and machine capacity are confirmed.** The exact Android branch and target must be selected using current official requirements.
 
 ## Important licensing notes
 
@@ -45,4 +63,4 @@ AOSP does not automatically include Google's proprietary apps or Google Mobile S
 
 ## Current limitations
 
-This repository establishes documentation and workflow only. A bootable image, production security posture, physical-device port, and Google services integration are **not yet implemented**.
+This repository establishes project documentation, setup helpers, and basic repository validation only. A bootable image, production security posture, physical-device port, and Google services integration are **not yet implemented**.

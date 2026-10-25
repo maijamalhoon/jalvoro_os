@@ -11,20 +11,12 @@ permissions:
   contents: read
 
 jobs:
-  required-documents:
-    name: Check required project documents
+  repository-and-script-checks:
+    name: Validate project files and setup scripts
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-      - name: Verify project foundation files
+      - name: Validate repository structure and Bash scripts
         shell: bash
-        run: |
-          set -euo pipefail
-          for file in README.md ROADMAP.md CONTRIBUTING.md SECURITY.md docs/MASTER_PLAN.md docs/ARCHITECTURE.md; do
-            if [[ ! -s "$file" ]]; then
-              echo "::error::Required file is missing or empty: $file"
-              exit 1
-            fi
-          done
-          echo "Required Jalvoro OS project documents are present."
+        run: bash scripts/validate-repo.sh
