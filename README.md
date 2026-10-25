@@ -21,11 +21,11 @@ Jalvoro OS is a long-term project to explore a distinctive, privacy-conscious An
 
 A Soong app module at [packages/apps/JalvoroLauncher](packages/apps/JalvoroLauncher/README.md).
 
-- HOME activity declaration and localized app strings.
+- HOME activity declaration and localized UI strings.
 - Localized date/time display and app icons.
 - Launchable-app discovery using scoped package visibility.
 - Live app-name search/filter and app launching.
-- Density-aware platform UI and basic accessibility descriptions.
+- Light and dark resource palettes that follow Android's day/night theme configuration.
 
 ### Jalvoro Settings
 
@@ -33,8 +33,8 @@ A Soong app module at [packages/apps/JalvoroSettings](packages/apps/JalvoroSetti
 
 - A unified Jalvoro-styled settings landing page.
 - Organized Display, Sound, Storage, Wi-Fi, Bluetooth, Privacy, Security, Apps and About sections.
-- Opens the corresponding Android system settings activities instead of bypassing Android's own security controls.
-- Localized resource strings, accessible card descriptions and graceful handling if a settings page is unavailable.
+- Opens Android's own settings activities instead of bypassing system security controls.
+- Localized strings, accessibility descriptions and automatic day/night palettes.
 
 **Important:** Both apps are prototypes. The Settings app is a styled entry point to existing Android settings, not yet a replacement for AOSP Settings. Neither module has been compiled against a synced AOSP tree or boot-tested on Cuttlefish. See [Implemented Code Inventory](docs/IMPLEMENTED_CODE.md).
 
