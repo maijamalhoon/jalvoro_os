@@ -20,7 +20,8 @@ Place this directory at `packages/apps/JalvoroLauncher` in an AOSP checkout, the
 ```make
 PRODUCT_PACKAGES += \
     JalvoroLauncher \
-    JalvoroSettings
+    JalvoroSettings \\
+    JalvoroControlCenter
 ```
 
 Use the exact lunch target documented by the checked-out AOSP branch. Then build the launcher module with:
