@@ -3,7 +3,6 @@ package com.jalvoro.settings;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -21,18 +20,12 @@ import android.widget.Toast;
  * It intentionally delegates sensitive/system configuration to Android itself.
  */
 public final class MainActivity extends Activity {
-    private static final int INK = Color.rgb(20, 28, 48);
-    private static final int MUTED = Color.rgb(103, 115, 139);
-    private static final int ACCENT = Color.rgb(72, 104, 232);
-    private static final int CANVAS = Color.rgb(245, 247, 252);
 
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
-        getWindow().setStatusBarColor(CANVAS);
-        getWindow().setNavigationBarColor(CANVAS);
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        getWindow().setStatusBarColor(color(R.color.settings_background));
+        getWindow().setNavigationBarColor(color(R.color.settings_background));
         buildScreen();
     }
 
@@ -48,7 +41,7 @@ public final class MainActivity extends Activity {
 
         TextView brand = new TextView(this);
         brand.setText(R.string.brand);
-        brand.setTextColor(ACCENT);
+        brand.setTextColor(color(R.color.accent));
         brand.setTextSize(12);
         brand.setLetterSpacing(0.18f);
         brand.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
@@ -56,7 +49,7 @@ public final class MainActivity extends Activity {
 
         TextView title = new TextView(this);
         title.setText(R.string.title);
-        title.setTextColor(INK);
+        title.setTextColor(color(R.color.ink));
         title.setTextSize(34);
         title.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         LinearLayout.LayoutParams titleParams = params();
@@ -65,7 +58,7 @@ public final class MainActivity extends Activity {
 
         TextView subtitle = new TextView(this);
         subtitle.setText(R.string.subtitle);
-        subtitle.setTextColor(MUTED);
+        subtitle.setTextColor(color(R.color.muted));
         subtitle.setTextSize(15);
         LinearLayout.LayoutParams subtitleParams = params();
         subtitleParams.topMargin = dp(4);
@@ -91,7 +84,7 @@ public final class MainActivity extends Activity {
 
         TextView footer = new TextView(this);
         footer.setText(R.string.footer);
-        footer.setTextColor(MUTED);
+        footer.setTextColor(color(R.color.muted));
         footer.setTextSize(12);
         footer.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams footerParams = params();
@@ -104,7 +97,7 @@ public final class MainActivity extends Activity {
     private void addSection(LinearLayout page, int titleRes) {
         TextView title = new TextView(this);
         title.setText(titleRes);
-        title.setTextColor(MUTED);
+        title.setTextColor(color(R.color.muted));
         title.setTextSize(11);
         title.setLetterSpacing(0.12f);
         title.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
@@ -118,20 +111,20 @@ public final class MainActivity extends Activity {
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
         card.setPadding(dp(16), dp(15), dp(16), dp(15));
-        card.setBackground(rounded(Color.WHITE, dp(17)));
+        card.setBackground(rounded(color(R.color.surface), dp(17)));
         card.setFocusable(true);
         card.setClickable(true);
 
         TextView title = new TextView(this);
         title.setText(titleRes);
-        title.setTextColor(INK);
+        title.setTextColor(color(R.color.ink));
         title.setTextSize(16);
         title.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         card.addView(title, params());
 
         TextView description = new TextView(this);
         description.setText(descRes);
-        description.setTextColor(MUTED);
+        description.setTextColor(color(R.color.muted));
         description.setTextSize(13);
         LinearLayout.LayoutParams descParams = params();
         descParams.topMargin = dp(4);
@@ -155,6 +148,10 @@ public final class MainActivity extends Activity {
         } catch (ActivityNotFoundException | SecurityException exception) {
             Toast.makeText(this, R.string.open_failed, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private int color(int resourceId) {
+        return getResources().getColor(resourceId);
     }
 
     private LinearLayout.LayoutParams params() {

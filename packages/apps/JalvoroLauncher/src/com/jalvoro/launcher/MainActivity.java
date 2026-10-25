@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -33,9 +32,6 @@ import java.util.Locale;
  * Platform widgets keep the module easy to build with Soong.
  */
 public final class MainActivity extends Activity {
-    private static final int INK = Color.rgb(20, 28, 48);
-    private static final int MUTED = Color.rgb(103, 115, 139);
-    private static final int ACCENT = Color.rgb(72, 104, 232);
 
     private final List<ResolveInfo> allApps = new ArrayList<>();
     private LinearLayout appList;
@@ -46,10 +42,8 @@ public final class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setStatusBarColor(Color.rgb(235, 241, 255));
-        getWindow().setNavigationBarColor(Color.rgb(235, 241, 255));
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        getWindow().setStatusBarColor(color(R.color.home_background_top));
+        getWindow().setNavigationBarColor(color(R.color.home_background_bottom));
         buildHome();
         loadApps();
         renderApps("");
@@ -71,7 +65,7 @@ public final class MainActivity extends Activity {
         scroll.setFillViewport(true);
         scroll.setBackground(new GradientDrawable(
                 GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[] { Color.rgb(235, 241, 255), Color.rgb(248, 249, 253) }));
+                new int[] { color(R.color.home_background_top), color(R.color.home_background_bottom) }));
 
         LinearLayout page = new LinearLayout(this);
         page.setOrientation(LinearLayout.VERTICAL);
@@ -80,14 +74,14 @@ public final class MainActivity extends Activity {
 
         TextView brand = new TextView(this);
         brand.setText(R.string.brand_name);
-        brand.setTextColor(ACCENT);
+        brand.setTextColor(color(R.color.accent));
         brand.setTextSize(13);
         brand.setLetterSpacing(0.18f);
         brand.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         page.addView(brand);
 
         clock = new TextView(this);
-        clock.setTextColor(INK);
+        clock.setTextColor(color(R.color.ink));
         clock.setTextSize(42);
         clock.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         LinearLayout.LayoutParams clockParams = new LinearLayout.LayoutParams(
@@ -96,13 +90,13 @@ public final class MainActivity extends Activity {
         page.addView(clock, clockParams);
 
         date = new TextView(this);
-        date.setTextColor(MUTED);
+        date.setTextColor(color(R.color.muted));
         date.setTextSize(15);
         page.addView(date);
 
         TextView welcome = new TextView(this);
         welcome.setText(R.string.home_welcome);
-        welcome.setTextColor(INK);
+        welcome.setTextColor(color(R.color.ink));
         welcome.setTextSize(17);
         welcome.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         LinearLayout.LayoutParams welcomeParams = new LinearLayout.LayoutParams(
@@ -114,14 +108,14 @@ public final class MainActivity extends Activity {
         LinearLayout searchCard = new LinearLayout(this);
         searchCard.setGravity(Gravity.CENTER_VERTICAL);
         searchCard.setPadding(dp(16), dp(4), dp(16), dp(4));
-        searchCard.setBackground(rounded(Color.WHITE, dp(18)));
+        searchCard.setBackground(rounded(color(R.color.surface), dp(18)));
         search = new EditText(this);
         search.setSingleLine(true);
         search.setTextSize(15);
-        search.setTextColor(INK);
-        search.setHintTextColor(MUTED);
+        search.setTextColor(color(R.color.ink));
+        search.setHintTextColor(color(R.color.muted));
         search.setHint(R.string.search_apps_hint);
-        search.setBackgroundColor(Color.TRANSPARENT);
+        search.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         search.setPadding(0, dp(10), 0, dp(10));
         search.setCompoundDrawablesWithIntrinsicBounds(
                 android.R.drawable.ic_menu_search, 0, 0, 0);
@@ -136,7 +130,7 @@ public final class MainActivity extends Activity {
 
         TextView appsTitle = new TextView(this);
         appsTitle.setText(R.string.your_apps);
-        appsTitle.setTextColor(MUTED);
+        appsTitle.setTextColor(color(R.color.muted));
         appsTitle.setTextSize(12);
         appsTitle.setLetterSpacing(0.12f);
         appsTitle.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
@@ -151,7 +145,7 @@ public final class MainActivity extends Activity {
 
         TextView footer = new TextView(this);
         footer.setText(R.string.prototype_footer);
-        footer.setTextColor(MUTED);
+        footer.setTextColor(color(R.color.muted));
         footer.setTextSize(12);
         footer.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams footerParams = new LinearLayout.LayoutParams(
@@ -201,7 +195,7 @@ public final class MainActivity extends Activity {
             empty.setText(normalized.isEmpty()
                     ? R.string.no_apps_found
                     : getString(R.string.no_apps_match, query.trim()));
-            empty.setTextColor(MUTED);
+            empty.setTextColor(color(R.color.muted));
             empty.setPadding(dp(4), dp(18), dp(4), dp(18));
             appList.addView(empty);
             return;
@@ -216,7 +210,7 @@ public final class MainActivity extends Activity {
             cell.setOrientation(LinearLayout.VERTICAL);
             cell.setGravity(Gravity.CENTER_HORIZONTAL);
             cell.setPadding(dp(3), dp(10), dp(3), dp(10));
-            cell.setBackground(rounded(Color.argb(70, 255, 255, 255), dp(16)));
+            cell.setBackground(rounded(color(R.color.app_tile), dp(16)));
 
             android.widget.ImageView icon = new android.widget.ImageView(this);
             try {
@@ -229,7 +223,7 @@ public final class MainActivity extends Activity {
 
             TextView label = new TextView(this);
             label.setText(labelOf(app));
-            label.setTextColor(INK);
+            label.setTextColor(color(R.color.ink));
             label.setTextSize(11);
             label.setGravity(Gravity.CENTER);
             label.setMaxLines(2);
@@ -278,6 +272,10 @@ public final class MainActivity extends Activity {
     private void updateDateTime() {
         if (clock != null) clock.setText(DateFormat.getTimeInstance(DateFormat.SHORT).format(new Date()));
         if (date != null) date.setText(DateFormat.getDateInstance(DateFormat.FULL).format(new Date()));
+    }
+
+    private int color(int resourceId) {
+        return getResources().getColor(resourceId);
     }
 
     private GradientDrawable rounded(int color, int radius) {
