@@ -1,0 +1,9 @@
+android_app {
+    name: "JalvoroControlCenter",
+    manifest: "AndroidManifest.xml",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    platform_apis: true,
+    certificate: "platform",
+    privileged: false,
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jalvoro Control Center</string><string name="brand">JALVORO OS</string><string name="title">Control Center</string><string name="subtitle">Your device, at a glance.</string>
+    <string name="connections">Connections</string><string name="wifi">Wi-Fi settings</string><string name="wifi_desc">Connect to a network or manage saved networks</string>
+    <string name="bluetooth">Bluetooth settings</string><string name="bluetooth_desc">Pair and manage nearby devices</string>
+    <string name="display">Display settings</string><string name="display_desc">Brightness, screen timeout and appearance</string>
+    <string name="sound">Sound settings</string><string name="sound_desc">Volume, vibration and sound preferences</string>
+    <string name="battery">Battery settings</string><string name="battery_desc">Battery usage and power options</string>
+    <string name="privacy">Privacy settings</string><string name="privacy_desc">Review permissions and privacy controls</string>
+    <string name="system">System</string><string name="about">About device</string><string name="about_desc">Device details and Android version</string>
+    <string name="footer">Jalvoro prototype • System settings remain managed by Android</string><string name="unavailable">This settings screen is not available on this build.</string>
+</resources>
