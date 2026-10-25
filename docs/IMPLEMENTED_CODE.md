@@ -23,6 +23,7 @@ Location: `packages/apps/JalvoroSettings/`
 - Jalvoro-branded settings landing page.
 - Sections for Display, Sound, Storage, Wi-Fi, Bluetooth, Privacy, Security, Apps and About.
 - Uses Android's standard settings intents for the underlying configuration.
+- Non-privileged app packaging; no privileged permissions are needed for the current navigation-hub scope.
 - Localized resources, accessibility descriptions and graceful handling for missing target activities.
 - Matching light/dark palettes and themes based on Android's day/night resource qualifiers.
 
