@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="home_background_top">#101522</color>
+    <color name="home_background_bottom">#171E2D</color>
+    <color name="surface">#20283A</color>
+    <color name="ink">#F0F3FB</color>
+    <color name="muted">#AAB4C8</color>
+    <color name="accent">#9CB0FF</color>
+    <color name="app_tile">#25FFFFFF</color>
+</resources>
