@@ -4,7 +4,7 @@
 
 Jalvoro OS is a long-term project to explore a distinctive, privacy-conscious Android experience. The first engineering target is a virtual Android device. Physical-device support and optional Google Mobile Services are later milestones—not current claims.
 
-> **Status:** Repository foundation plus two Android application prototypes. A bootable Jalvoro OS image has not yet been built or verified.
+> **Status:** Repository foundation, two Android app prototypes, and a reusable product-package fragment. A bootable Jalvoro OS image has not yet been built or verified.
 
 ## Principles
 
@@ -35,6 +35,10 @@ A Soong app module at [packages/apps/JalvoroSettings](packages/apps/JalvoroSetti
 - Organized Display, Sound, Storage, Wi-Fi, Bluetooth, Privacy, Security, Apps and About sections.
 - Opens Android's own settings activities instead of bypassing system security controls.
 - Localized strings, accessibility descriptions and automatic day/night palettes.
+
+### AOSP product integration
+
+`device/jalvoro/common/jalvoro_apps.mk` adds both apps to `PRODUCT_PACKAGES`. See [product integration notes](device/jalvoro/common/README.md) for how to include it from an AOSP product makefile.
 
 **Important:** Both apps are prototypes. The Settings app is a styled entry point to existing Android settings, not yet a replacement for AOSP Settings. Neither module has been compiled against a synced AOSP tree or boot-tested on Cuttlefish. See [Implemented Code Inventory](docs/IMPLEMENTED_CODE.md).
 
