@@ -32,7 +32,7 @@ public final class MainActivity extends Activity {
     private void buildScreen() {
         ScrollView scroll = new ScrollView(this);
         scroll.setFillViewport(true);
-        scroll.setBackgroundColor(CANVAS);
+        scroll.setBackgroundColor(color(R.color.settings_background));
 
         LinearLayout page = new LinearLayout(this);
         page.setOrientation(LinearLayout.VERTICAL);
