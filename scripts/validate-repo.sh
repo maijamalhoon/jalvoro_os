@@ -10,7 +10,7 @@ required=(
   docs/DEVELOPMENT_ENVIRONMENT.md docs/ANDROID_STACK_MAP.md docs/TESTING.md
   docs/FEATURE_BACKLOG.md docs/DECISIONS.md docs/BUILD_AND_RELEASE.md
   docs/AI_POLICY.md docs/TEST_MATRIX.md docs/BASELINE.md docs/SYSTEM_SUBSYSTEMS.md docs/IMPLEMENTED_CODE.md
-  scripts/setup-ubuntu.sh scripts/check-host.sh scripts/prepare-wsl.ps1 scripts/sync-aosp.sh scripts/build-aosp.sh scripts/smoke-test-device.sh
+  scripts/setup-ubuntu.sh scripts/check-host.sh scripts/prepare-wsl.ps1 scripts/sync-aosp.sh scripts/integrate-aosp-apps.sh scripts/build-aosp.sh scripts/smoke-test-device.sh
   scripts/validate-android-resources.py scripts/validate-settings.py
   device/jalvoro/common/jalvoro_apps.mk device/jalvoro/common/README.md
   packages/apps/JalvoroLauncher/Android.bp
