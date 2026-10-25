@@ -17,6 +17,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-      - name: Validate repository structure and Bash scripts
+      - name: Validate repository structure, Bash scripts and launcher source
         shell: bash
         run: bash scripts/validate-repo.sh

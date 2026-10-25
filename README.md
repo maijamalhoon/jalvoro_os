@@ -4,7 +4,7 @@
 
 Jalvoro OS is a long-term project to explore a distinctive, privacy-conscious Android experience. The first engineering target is a virtual Android device. Physical-device support and optional Google Mobile Services are later milestones—not current claims.
 
-> **Status:** Planning, repository foundation, and host-setup automation. This repository does not yet contain a bootable Jalvoro OS image.
+> **Status:** Repository foundation plus the first Android application prototype. A bootable Jalvoro OS image has not yet been built or verified.
 
 ## Principles
 
@@ -15,6 +15,20 @@ Jalvoro OS is a long-term project to explore a distinctive, privacy-conscious An
 - **Incremental engineering:** document decisions, keep changes reviewable, and test every milestone.
 - **Honest status:** distinguish plans, prototypes, tested features, and release-ready functionality.
 
+## Implemented code
+
+The first source-code milestone is **Jalvoro Launcher**, an AOSP Soong app module at [packages/apps/JalvoroLauncher](packages/apps/JalvoroLauncher/README.md).
+
+Current prototype features:
+- HOME/launcher activity declaration.
+- Localized date and time display.
+- Installed launchable-app listing with icons.
+- Live app-name search/filter.
+- App launch handling and basic failure feedback.
+- Lightweight responsive layout using platform widgets, without third-party runtime dependencies.
+
+This is a starter launcher, not yet a Samsung One UI replacement. It has not yet been compiled against a synced AOSP source tree or boot-tested on Cuttlefish. See [Implemented Code Inventory](docs/IMPLEMENTED_CODE.md).
+
 ## Planned experience
 
 - Custom system UI, launcher, widgets, lock screen, quick settings, and themes
@@ -23,7 +37,7 @@ Jalvoro OS is a long-term project to explore a distinctive, privacy-conscious An
 - Optional offline AI capabilities
 - Signed-update strategy and platform compatibility testing
 
-These are goals, not implemented features, until developed and verified.
+These remain goals until implemented and verified.
 
 ## Project documents
 
@@ -33,6 +47,7 @@ These are goals, not implemented features, until developed and verified.
 - [Android platform stack map](docs/ANDROID_STACK_MAP.md)
 - [Android OS subsystem inventory](docs/SYSTEM_SUBSYSTEMS.md)
 - [Development environment setup](docs/DEVELOPMENT_ENVIRONMENT.md)
+- [Implemented code inventory](docs/IMPLEMENTED_CODE.md)
 - [Feature backlog](docs/FEATURE_BACKLOG.md)
 - [Engineering decisions](docs/DECISIONS.md)
 - [Build and release policy](docs/BUILD_AND_RELEASE.md)
@@ -51,11 +66,11 @@ The repository includes:
 - `scripts/check-host.sh` — host diagnostic report.
 - `scripts/build-aosp.sh` — guarded build helper for a source checkout and explicitly selected branch target.
 - `scripts/smoke-test-device.sh` — basic ADB boot and system identity smoke test.
-- `scripts/validate-repo.sh` — required-file and Bash syntax validation.
+- `scripts/validate-repo.sh` and `scripts/validate-launcher.sh` — repository, shell syntax and starter-module source checks.
 
-Start with [Development Environment](docs/DEVELOPMENT_ENVIRONMENT.md). Inspect scripts before running them. The setup scripts do not fetch AOSP source, build Android, create signing keys, or flash devices.
+Start with [Development Environment](docs/DEVELOPMENT_ENVIRONMENT.md). Inspect scripts before running them. The setup scripts do not sync AOSP source, build the full OS, create signing keys, or flash devices.
 
-**Do not download or build a full AOSP tree until the target branch and machine capacity are confirmed.** The exact Android branch and target must be selected using current official requirements.
+**Do not download or build a full AOSP tree until the target branch and machine capacity are confirmed.** See the official [AOSP host requirements](https://source.android.com/docs/setup/start/requirements).
 
 ## Important licensing notes
 
@@ -63,4 +78,4 @@ AOSP does not automatically include Google's proprietary apps or Google Mobile S
 
 ## Current limitations
 
-This repository establishes project documentation, setup helpers, and basic repository validation only. A bootable image, production security posture, physical-device port, and Google services integration are **not yet implemented**.
+A bootable image, production security posture, physical-device port, complete custom SystemUI/settings, offline AI, and Google services integration are **not yet implemented**. The launcher is a first code milestone and still requires an actual AOSP build and device testing.

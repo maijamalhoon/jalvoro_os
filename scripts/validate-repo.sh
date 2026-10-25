@@ -10,7 +10,13 @@ required=(
   docs/DEVELOPMENT_ENVIRONMENT.md docs/ANDROID_STACK_MAP.md docs/TESTING.md
   docs/FEATURE_BACKLOG.md docs/DECISIONS.md docs/BUILD_AND_RELEASE.md
   docs/AI_POLICY.md docs/TEST_MATRIX.md docs/BASELINE.md docs/SYSTEM_SUBSYSTEMS.md
+  docs/IMPLEMENTED_CODE.md
   scripts/setup-ubuntu.sh scripts/check-host.sh scripts/prepare-wsl.ps1 scripts/build-aosp.sh scripts/smoke-test-device.sh
+  scripts/validate-android-resources.py
+  packages/apps/JalvoroLauncher/Android.bp
+  packages/apps/JalvoroLauncher/AndroidManifest.xml
+  packages/apps/JalvoroLauncher/src/com/jalvoro/launcher/MainActivity.java
+  packages/apps/JalvoroLauncher/res/values/strings.xml
 )
 
 fail=0
@@ -33,9 +39,21 @@ for file in scripts/*.sh; do
   fi
 done
 
+if python3 -m py_compile scripts/validate-android-resources.py; then
+  printf 'PYTHON SYNTAX OK: scripts/validate-android-resources.py\n'
+else
+  printf 'PYTHON SYNTAX FAIL: scripts/validate-android-resources.py\n' >&2
+  fail=1
+fi
+
+if ! bash scripts/validate-launcher.sh; then
+  printf 'LAUNCHER SOURCE CHECKS FAILED\n' >&2
+  fail=1
+fi
+
 if [[ "$fail" -ne 0 ]]; then
   echo "Repository validation failed." >&2
   exit 1
 fi
 
-echo "Repository structure and shell syntax checks passed."
+echo "Repository structure, resource consistency and script syntax checks passed."

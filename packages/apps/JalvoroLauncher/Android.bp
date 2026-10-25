@@ -1,0 +1,12 @@
+// Jalvoro's first AOSP-integrated system app: a lightweight home launcher.
+android_app {
+    name: "JalvoroLauncher",
+    manifest: "AndroidManifest.xml",
+    srcs: ["src/**/*.java"],
+    platform_apis: true,
+    certificate: "platform",
+    privileged: true,
+    dex_preopt: {
+        enabled: false,
+    },
+}
