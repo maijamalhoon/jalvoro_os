@@ -1,10 +1,9 @@
 package com.jalvoro.launcher;
 
 import android.app.Activity;
-import android.app.WallpaperManager;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -14,7 +13,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.content.Context;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
@@ -31,14 +29,13 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Minimal, dependency-free home screen for the Jalvoro AOSP prototype.
- * This deliberately uses platform widgets so it can be built directly by Soong.
+ * Minimal, dependency-free home launcher for the Jalvoro AOSP prototype.
+ * Platform widgets keep the module easy to build with Soong.
  */
 public final class MainActivity extends Activity {
     private static final int INK = Color.rgb(20, 28, 48);
     private static final int MUTED = Color.rgb(103, 115, 139);
     private static final int ACCENT = Color.rgb(72, 104, 232);
-    private static final int SURFACE = Color.WHITE;
 
     private final List<ResolveInfo> allApps = new ArrayList<>();
     private LinearLayout appList;
@@ -82,7 +79,7 @@ public final class MainActivity extends Activity {
         scroll.addView(page);
 
         TextView brand = new TextView(this);
-        brand.setText("JALVORO");
+        brand.setText(R.string.brand_name);
         brand.setTextColor(ACCENT);
         brand.setTextSize(13);
         brand.setLetterSpacing(0.18f);
@@ -104,7 +101,7 @@ public final class MainActivity extends Activity {
         page.addView(date);
 
         TextView welcome = new TextView(this);
-        welcome.setText("A calmer home for everything.");
+        welcome.setText(R.string.home_welcome);
         welcome.setTextColor(INK);
         welcome.setTextSize(17);
         welcome.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
@@ -123,12 +120,13 @@ public final class MainActivity extends Activity {
         search.setTextSize(15);
         search.setTextColor(INK);
         search.setHintTextColor(MUTED);
-        search.setHint("Search apps");
+        search.setHint(R.string.search_apps_hint);
         search.setBackgroundColor(Color.TRANSPARENT);
         search.setPadding(0, dp(10), 0, dp(10));
         search.setCompoundDrawablesWithIntrinsicBounds(
                 android.R.drawable.ic_menu_search, 0, 0, 0);
         search.setCompoundDrawablePadding(dp(10));
+        search.setContentDescription(getString(R.string.search_apps_hint));
         searchCard.addView(search, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         LinearLayout.LayoutParams searchParams = new LinearLayout.LayoutParams(
@@ -137,7 +135,7 @@ public final class MainActivity extends Activity {
         page.addView(searchCard, searchParams);
 
         TextView appsTitle = new TextView(this);
-        appsTitle.setText("YOUR APPS");
+        appsTitle.setText(R.string.your_apps);
         appsTitle.setTextColor(MUTED);
         appsTitle.setTextSize(12);
         appsTitle.setLetterSpacing(0.12f);
@@ -152,7 +150,7 @@ public final class MainActivity extends Activity {
         page.addView(appList, listParams);
 
         TextView footer = new TextView(this);
-        footer.setText("Jalvoro OS • Early prototype");
+        footer.setText(R.string.prototype_footer);
         footer.setTextColor(MUTED);
         footer.setTextSize(12);
         footer.setGravity(Gravity.CENTER);
@@ -200,7 +198,9 @@ public final class MainActivity extends Activity {
 
         if (visible.isEmpty()) {
             TextView empty = new TextView(this);
-            empty.setText(normalized.isEmpty() ? "No launchable apps found." : "No apps match “" + query + "”.");
+            empty.setText(normalized.isEmpty()
+                    ? R.string.no_apps_found
+                    : getString(R.string.no_apps_match, query.trim()));
             empty.setTextColor(MUTED);
             empty.setPadding(dp(4), dp(18), dp(4), dp(18));
             appList.addView(empty);
@@ -209,8 +209,7 @@ public final class MainActivity extends Activity {
 
         GridLayout grid = new GridLayout(this);
         grid.setColumnCount(4);
-        int width = getResources().getDisplayMetrics().widthPixels
-                - dp(44) - dp(24);
+        int width = getResources().getDisplayMetrics().widthPixels - dp(68);
         int cellWidth = Math.max(dp(62), width / 4);
         for (final ResolveInfo app : visible) {
             LinearLayout cell = new LinearLayout(this);
@@ -225,6 +224,7 @@ public final class MainActivity extends Activity {
             } catch (RuntimeException ignored) {
                 icon.setImageResource(android.R.drawable.sym_def_app_icon);
             }
+            icon.setContentDescription(labelOf(app));
             cell.addView(icon, new LinearLayout.LayoutParams(dp(42), dp(42)));
 
             TextView label = new TextView(this);
@@ -240,6 +240,8 @@ public final class MainActivity extends Activity {
             cell.addView(label, labelParams);
 
             cell.setContentDescription(labelOf(app));
+            cell.setFocusable(true);
+            cell.setClickable(true);
             cell.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) { launch(app); }
             });
@@ -269,7 +271,7 @@ public final class MainActivity extends Activity {
                 if (imm != null) imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
             }
         } catch (ActivityNotFoundException | SecurityException exception) {
-            Toast.makeText(this, "This app could not be opened.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.app_open_failed, Toast.LENGTH_SHORT).show();
         }
     }
 
