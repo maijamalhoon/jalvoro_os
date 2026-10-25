@@ -28,6 +28,7 @@ grep -q 'android.intent.category.LAUNCHER' "$app/AndroidManifest.xml"
 grep -q '<queries>' "$app/AndroidManifest.xml"
 grep -q 'Intent.CATEGORY_LAUNCHER' "$app/src/com/jalvoro/launcher/MainActivity.java"
 grep -q 'R.string.search_apps_hint' "$app/src/com/jalvoro/launcher/MainActivity.java"
+grep -q 'Math.min(6, width / dp(82))' "$app/src/com/jalvoro/launcher/MainActivity.java"
 grep -q 'android_app' "$app/Android.bp"
 python3 scripts/validate-android-resources.py
 printf 'Jalvoro launcher source checks passed. (This is not an Android compile.)\n'
