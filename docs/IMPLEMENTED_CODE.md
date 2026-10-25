@@ -1,6 +1,6 @@
 # Implemented Code Inventory
 
-**Status: two Android app prototypes and a reusable product package fragment are present; full AOSP build and device validation pending.**
+**Status: three Android app prototypes and a reusable product package fragment are present; full AOSP build and device validation pending.**
 
 ## Jalvoro Launcher
 
@@ -26,11 +26,22 @@ Location: `packages/apps/JalvoroSettings/`
 
 This is a navigation hub, not a replacement for AOSP Settings or custom system services.
 
+## Jalvoro Control Center
+
+Location: `packages/apps/JalvoroControlCenter/`
+
+- Launchable, branded control hub with device settings categories.
+- Opens Android-owned Wi-Fi, Bluetooth, display, sound, battery, privacy and device information screens.
+- Day/night resource palettes and density-aware card layouts.
+- No special permissions, network calls, analytics or direct privileged radio toggles.
+
+This is **not** the SystemUI Quick Settings shade. Direct toggles and notification-shade integration require platform/SystemUI work and target-branch validation.
+
 ## AOSP product integration fragment
 
 Location: `device/jalvoro/common/jalvoro_apps.mk`
 
-The fragment adds both app modules to `PRODUCT_PACKAGES`. Include it from the selected product's makefile using:
+The fragment adds all three app modules to `PRODUCT_PACKAGES`. Include it from the selected product's makefile using:
 
 ```make
 $(call inherit-product, device/jalvoro/common/jalvoro_apps.mk)
@@ -43,7 +54,7 @@ This is intentionally product-neutral. It does not choose the correct AOSP lunch
 1. Sync the selected official AOSP release and confirm the exact product/lunch target.
 2. Keep both modules at their respective `packages/apps/` paths in the AOSP checkout.
 3. Copy/integrate `device/jalvoro/common/jalvoro_apps.mk` and include it from the chosen product makefile.
-4. Build the modules with `m JalvoroLauncher JalvoroSettings`, then build the selected product image.
+4. Build the modules with `m JalvoroLauncher JalvoroSettings JalvoroControlCenter`, then build the selected product image.
 5. Boot the image in Cuttlefish. Verify HOME resolution, app visibility/search/launch, settings destinations, day/night mode, rotation, accessibility, and app behavior on the selected Android branch.
 
 ## Validation and limitations
