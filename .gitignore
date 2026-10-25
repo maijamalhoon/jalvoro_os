@@ -1,0 +1,35 @@
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
+*.pem
+*.p12
+*.key
+secrets/
+credentials/
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+
+# Android / Gradle outputs if app prototypes are added
+.gradle/
+**/build/
+local.properties
+captures/
+
+# AOSP generated output and local manifests
+/out/
+/.repo/
+.repo/
