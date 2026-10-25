@@ -2,9 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jalvoro.launcher">
 
-    <!-- Android 11+ package visibility: allow the launcher to discover apps
-         that declare a standard launcher activity without requesting broad
-         QUERY_ALL_PACKAGES access. -->
+    <!-- Android 11+ package visibility: discover standard launcher apps
+         without requesting broad QUERY_ALL_PACKAGES access. -->
     <queries>
         <intent>
             <action android:name="android.intent.action.MAIN" />
@@ -14,7 +13,7 @@
 
     <application
         android:allowBackup="false"
-        android:label="Jalvoro Home"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
 
@@ -22,7 +21,7 @@
             android:name=".MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:label="Jalvoro Home">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.HOME" />
