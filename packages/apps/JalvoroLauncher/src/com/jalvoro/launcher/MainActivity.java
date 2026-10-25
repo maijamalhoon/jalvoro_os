@@ -3,6 +3,7 @@ package com.jalvoro.launcher;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
@@ -57,6 +58,16 @@ public final class MainActivity extends Activity {
             loadApps();
             renderApps(search == null ? "" : search.getText().toString());
             updateDateTime();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // This activity handles rotation in-place, so rebuild the app grid using
+        // the newly available width rather than keeping the old column count.
+        if (appList != null) {
+            renderApps(search == null ? "" : search.getText().toString());
         }
     }
 
@@ -202,9 +213,11 @@ public final class MainActivity extends Activity {
         }
 
         GridLayout grid = new GridLayout(this);
-        grid.setColumnCount(4);
+        // Adapt the app drawer to compact phones, landscape and wider screens.
         int width = getResources().getDisplayMetrics().widthPixels - dp(68);
-        int cellWidth = Math.max(dp(62), width / 4);
+        int columns = Math.max(3, Math.min(6, width / dp(82)));
+        grid.setColumnCount(columns);
+        int cellWidth = Math.max(dp(62), width / columns);
         for (final ResolveInfo app : visible) {
             LinearLayout cell = new LinearLayout(this);
             cell.setOrientation(LinearLayout.VERTICAL);

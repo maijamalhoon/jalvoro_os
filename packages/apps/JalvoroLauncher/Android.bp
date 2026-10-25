@@ -5,7 +5,8 @@ android_app {
     srcs: ["src/**/*.java"],
     platform_apis: true,
     certificate: "platform",
-    privileged: true,
+    // The launcher needs no privileged permissions; keep it non-privileged.
+    privileged: false,
     dex_preopt: {
         enabled: false,
     },

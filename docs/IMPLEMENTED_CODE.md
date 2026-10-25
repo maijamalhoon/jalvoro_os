@@ -11,6 +11,8 @@ Location: `packages/apps/JalvoroLauncher/`
 - Date and time based on device locale/settings.
 - Launchable-app discovery through scoped package visibility.
 - App icons, sorted names, live filtering and app launching.
+- Responsive 3–6 column app grid for compact and wider screens.
+- Non-privileged package configuration; no broad `QUERY_ALL_PACKAGES` permission.
 - Resource-based light/dark palettes and themes using Android's day/night resource qualifiers.
 - Density-aware layout and basic focus/content descriptions.
 
@@ -52,7 +54,7 @@ This is intentionally product-neutral. It does not choose the correct AOSP lunch
 ## Build and integrate
 
 1. Sync the selected official AOSP release and confirm the exact product/lunch target.
-2. Keep both modules at their respective `packages/apps/` paths in the AOSP checkout.
+2. Keep all three modules at their respective `packages/apps/` paths in the AOSP checkout.
 3. Copy/integrate `device/jalvoro/common/jalvoro_apps.mk` and include it from the chosen product makefile.
 4. Build the modules with `m JalvoroLauncher JalvoroSettings JalvoroControlCenter`, then build the selected product image.
 5. Boot the image in Cuttlefish. Verify HOME resolution, app visibility/search/launch, settings destinations, day/night mode, rotation, accessibility, and app behavior on the selected Android branch.
