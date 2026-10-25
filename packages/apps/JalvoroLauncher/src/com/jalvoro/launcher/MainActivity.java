@@ -202,9 +202,11 @@ public final class MainActivity extends Activity {
         }
 
         GridLayout grid = new GridLayout(this);
-        grid.setColumnCount(4);
+        // Adapt the app drawer to compact phones, landscape and wider screens.
         int width = getResources().getDisplayMetrics().widthPixels - dp(68);
-        int cellWidth = Math.max(dp(62), width / 4);
+        int columns = Math.max(3, Math.min(6, width / dp(82)));
+        grid.setColumnCount(columns);
+        int cellWidth = Math.max(dp(62), width / columns);
         for (final ResolveInfo app : visible) {
             LinearLayout cell = new LinearLayout(this);
             cell.setOrientation(LinearLayout.VERTICAL);
