@@ -31,6 +31,7 @@ These are goals, not implemented features, until developed and verified.
 - [Proposed architecture](docs/ARCHITECTURE.md)
 - [Initial AOSP baseline proposal](docs/BASELINE.md)
 - [Android platform stack map](docs/ANDROID_STACK_MAP.md)
+- [Android OS subsystem inventory](docs/SYSTEM_SUBSYSTEMS.md)
 - [Development environment setup](docs/DEVELOPMENT_ENVIRONMENT.md)
 - [Feature backlog](docs/FEATURE_BACKLOG.md)
 - [Engineering decisions](docs/DECISIONS.md)
