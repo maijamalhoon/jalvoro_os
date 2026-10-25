@@ -75,7 +75,7 @@ public final class MainActivity extends Activity {
         addSection(page, R.string.section_device);
         addSetting(page, R.string.display, R.string.display_desc, Settings.ACTION_DISPLAY_SETTINGS);
         addSetting(page, R.string.sound, R.string.sound_desc, Settings.ACTION_SOUND_SETTINGS);
-        addSetting(page, R.string.storage, R.string.storage_desc, Settings.ACTION_INTERNAL_STORAGE_SETTINGS);
+        addSetting(page, R.string.storage, R.string.storage_desc, Settings.ACTION_STORAGE_SETTINGS);
 
         addSection(page, R.string.section_connections);
         addSetting(page, R.string.wifi, R.string.wifi_desc, Settings.ACTION_WIFI_SETTINGS);
