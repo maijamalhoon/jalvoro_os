@@ -29,6 +29,8 @@ Jalvoro OS is an AOSP-based project, not a new kernel or a rewrite of Android. T
 | Developer tooling | repo, Soong, Ninja, Clang, adb, fastboot, emulator/Cuttlefish | Pin versions and keep logs |
 | Optional AI | Android ML APIs / on-device runtimes | Separate optional feature; evaluate memory, latency, privacy, licences |
 
+For the more detailed inventory of framework, kernel, security, graphics, media, connectivity, power, update, and test subsystems, see [System Subsystems](SYSTEM_SUBSYSTEMS.md).
+
 ## Development stages
 
 1. **Host readiness:** Linux, toolchain packages, disk, KVM.
