@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate Jalvoro Launcher Android XML and resource references (not a full build)."""
+"""Validate Jalvoro Android app XML and resource references (not a full build)."""
 from pathlib import Path
 import re
 import sys
@@ -57,5 +57,45 @@ if not any(
 ):
     fail("manifest query must match MAIN + LAUNCHER")
 
+# Validate the Control Center manifest and resources independently.
+CONTROL = ROOT / "packages/apps/JalvoroControlCenter"
+control_xml = [CONTROL / "AndroidManifest.xml"] + sorted((CONTROL / "res").rglob("*.xml"))
+control_resources = {}
+for path in control_xml:
+    try:
+        root = ET.parse(path).getroot()
+    except (ET.ParseError, OSError) as exc:
+        fail(f"invalid XML at {path.relative_to(ROOT)}: {exc}")
+    if path != CONTROL / "AndroidManifest.xml":
+        if root.tag != "resources":
+            fail(f"{path.relative_to(ROOT)} must have a resources root")
+        for element in list(root):
+            name = element.get("name")
+            if not name:
+                fail(f"unnamed resource in {path.relative_to(ROOT)}")
+            control_resources.setdefault(element.tag, set()).add(name)
+
+for source in control_xml + [CONTROL / "src/com/jalvoro/controlcenter/MainActivity.java"]:
+    content = source.read_text(encoding="utf-8")
+    for kind, name in re.findall(r"@(string|color|style)/([A-Za-z0-9_]+)", content):
+        if name not in control_resources.get(kind, set()):
+            fail(f"{source.relative_to(ROOT)} references missing {kind} '{name}'")
+    for kind, name in re.findall(r"R\.(string|color|style)\.([A-Za-z0-9_]+)", content):
+        if name not in control_resources.get(kind, set()):
+            fail(f"{source.relative_to(ROOT)} references missing {kind} '{name}'")
+
+control_manifest = roots.get(CONTROL / "AndroidManifest.xml")
+if control_manifest is None:
+    control_manifest = ET.parse(CONTROL / "AndroidManifest.xml").getroot()
+if not any(
+    intent.find("action") is not None
+    and intent.find("action").get(ANDROID_NS + "name") == "android.intent.action.MAIN"
+    and intent.find("category") is not None
+    and intent.find("category").get(ANDROID_NS + "name") == "android.intent.category.LAUNCHER"
+    for intent in control_manifest.findall(".//intent-filter")
+):
+    fail("Control Center manifest must expose a MAIN + LAUNCHER activity")
+
 print(f"Launcher XML valid; {sum(len(v) for v in resources.values())} resource definitions; references and package visibility passed.")
-print("Note: this is not an AOSP/Soong compile.")
+print(f"Control Center XML valid; {sum(len(v) for v in control_resources.values())} resource definitions; references and launch activity passed.")
+print("Note: these checks are not an AOSP/Soong compile.")
