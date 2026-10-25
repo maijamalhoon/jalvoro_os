@@ -32,6 +32,10 @@ Create a polished Android-based platform with a coherent design language, useful
 9. Add compatibility, regression, and security testing.
 10. Consider physical devices only after a stable virtual milestone.
 
+## Initial baseline proposal
+
+The current candidate is the Android 17 AOSP release line (`android17-release`) with an x86_64 Cuttlefish virtual phone target and a `userdebug` development build. This remains a proposal until the official branch/target documentation is rechecked on the actual host and the unmodified baseline successfully builds and boots. See [Baseline Proposal](BASELINE.md).
+
 ## Proposed technical stack
 
 | Area | Initial direction | Notes |
