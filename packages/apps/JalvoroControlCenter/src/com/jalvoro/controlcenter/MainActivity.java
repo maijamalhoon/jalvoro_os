@@ -134,8 +134,8 @@ public final class MainActivity extends Activity {
 
         card.setOnClickListener(v -> openSettings(action));
         GridLayout.LayoutParams cardParams = new GridLayout.LayoutParams(
-                GridLayout.spec(GridLayout.UNDEFINED, 1f),
-                GridLayout.spec(GridLayout.UNDEFINED));
+                GridLayout.spec(GridLayout.UNDEFINED),
+                GridLayout.spec(GridLayout.UNDEFINED, 1f));
         cardParams.width = 0;
         cardParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         cardParams.setMargins(dp(0), dp(0), dp(10), dp(10));
