@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jalvoro Settings</string>
+    <string name="brand">JALVORO</string>
+    <string name="title">Settings</string>
+    <string name="subtitle">Make your device feel like yours.</string>
+    <string name="section_device">DEVICE</string>
+    <string name="display">Display</string>
+    <string name="display_desc">Brightness, screen timeout and display preferences</string>
+    <string name="sound">Sound</string>
+    <string name="sound_desc">Volume, vibration and sound preferences</string>
+    <string name="storage">Storage</string>
+    <string name="storage_desc">Review device storage usage</string>
+    <string name="section_connections">CONNECTIONS</string>
+    <string name="wifi">Wi-Fi and network</string>
+    <string name="wifi_desc">Manage wireless and network settings</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="bluetooth_desc">Connect nearby accessories</string>
+    <string name="section_privacy">PRIVACY &amp; SECURITY</string>
+    <string name="privacy">Privacy and location</string>
+    <string name="privacy_desc">Review privacy and location controls</string>
+    <string name="security">Security</string>
+    <string name="security_desc">Screen lock and device security options</string>
+    <string name="apps">Apps</string>
+    <string name="apps_desc">Manage installed applications</string>
+    <string name="section_system">SYSTEM</string>
+    <string name="about">About device</string>
+    <string name="about_desc">Android version and device information</string>
+    <string name="open_failed">That settings page is unavailable on this build.</string>
+    <string name="footer">Jalvoro Settings prototype • Uses Android system settings</string>
+</resources>

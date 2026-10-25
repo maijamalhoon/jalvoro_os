@@ -12,11 +12,15 @@ required=(
   docs/AI_POLICY.md docs/TEST_MATRIX.md docs/BASELINE.md docs/SYSTEM_SUBSYSTEMS.md
   docs/IMPLEMENTED_CODE.md
   scripts/setup-ubuntu.sh scripts/check-host.sh scripts/prepare-wsl.ps1 scripts/build-aosp.sh scripts/smoke-test-device.sh
-  scripts/validate-android-resources.py
+  scripts/validate-android-resources.py scripts/validate-settings.py
   packages/apps/JalvoroLauncher/Android.bp
   packages/apps/JalvoroLauncher/AndroidManifest.xml
   packages/apps/JalvoroLauncher/src/com/jalvoro/launcher/MainActivity.java
   packages/apps/JalvoroLauncher/res/values/strings.xml
+  packages/apps/JalvoroSettings/Android.bp
+  packages/apps/JalvoroSettings/AndroidManifest.xml
+  packages/apps/JalvoroSettings/src/com/jalvoro/settings/MainActivity.java
+  packages/apps/JalvoroSettings/res/values/strings.xml
 )
 
 fail=0
@@ -39,15 +43,22 @@ for file in scripts/*.sh; do
   fi
 done
 
-if python3 -m py_compile scripts/validate-android-resources.py; then
-  printf 'PYTHON SYNTAX OK: scripts/validate-android-resources.py\n'
-else
-  printf 'PYTHON SYNTAX FAIL: scripts/validate-android-resources.py\n' >&2
-  fail=1
-fi
+for file in scripts/validate-android-resources.py scripts/validate-settings.py; do
+  if python3 -m py_compile "$file"; then
+    printf 'PYTHON SYNTAX OK: %s\n' "$file"
+  else
+    printf 'PYTHON SYNTAX FAIL: %s\n' "$file" >&2
+    fail=1
+  fi
+done
 
 if ! bash scripts/validate-launcher.sh; then
   printf 'LAUNCHER SOURCE CHECKS FAILED\n' >&2
+  fail=1
+fi
+
+if ! python3 scripts/validate-settings.py; then
+  printf 'SETTINGS SOURCE CHECKS FAILED\n' >&2
   fail=1
 fi
 
@@ -56,4 +67,4 @@ if [[ "$fail" -ne 0 ]]; then
   exit 1
 fi
 
-echo "Repository structure, resource consistency and script syntax checks passed."
+echo "Repository structure, Android resource consistency and script syntax checks passed."

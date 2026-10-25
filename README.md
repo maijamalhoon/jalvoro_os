@@ -4,7 +4,7 @@
 
 Jalvoro OS is a long-term project to explore a distinctive, privacy-conscious Android experience. The first engineering target is a virtual Android device. Physical-device support and optional Google Mobile Services are later milestones—not current claims.
 
-> **Status:** Repository foundation plus the first Android application prototype. A bootable Jalvoro OS image has not yet been built or verified.
+> **Status:** Repository foundation plus two Android application prototypes. A bootable Jalvoro OS image has not yet been built or verified.
 
 ## Principles
 
@@ -17,25 +17,34 @@ Jalvoro OS is a long-term project to explore a distinctive, privacy-conscious An
 
 ## Implemented code
 
-The first source-code milestone is **Jalvoro Launcher**, an AOSP Soong app module at [packages/apps/JalvoroLauncher](packages/apps/JalvoroLauncher/README.md).
+### Jalvoro Launcher
 
-Current prototype features:
-- HOME/launcher activity declaration.
-- Localized date and time display.
-- Installed launchable-app listing with icons.
-- Live app-name search/filter.
-- App launch handling and basic failure feedback.
-- Lightweight responsive layout using platform widgets, without third-party runtime dependencies.
+A Soong app module at [packages/apps/JalvoroLauncher](packages/apps/JalvoroLauncher/README.md).
 
-This is a starter launcher, not yet a Samsung One UI replacement. It has not yet been compiled against a synced AOSP source tree or boot-tested on Cuttlefish. See [Implemented Code Inventory](docs/IMPLEMENTED_CODE.md).
+- HOME activity declaration and localized app strings.
+- Localized date/time display and app icons.
+- Launchable-app discovery using scoped package visibility.
+- Live app-name search/filter and app launching.
+- Density-aware platform UI and basic accessibility descriptions.
+
+### Jalvoro Settings
+
+A Soong app module at [packages/apps/JalvoroSettings](packages/apps/JalvoroSettings/README.md).
+
+- A unified Jalvoro-styled settings landing page.
+- Organized Display, Sound, Storage, Wi-Fi, Bluetooth, Privacy, Security, Apps and About sections.
+- Opens the corresponding Android system settings activities instead of bypassing Android's own security controls.
+- Localized resource strings, accessible card descriptions and graceful handling if a settings page is unavailable.
+
+**Important:** Both apps are prototypes. The Settings app is a styled entry point to existing Android settings, not yet a replacement for AOSP Settings. Neither module has been compiled against a synced AOSP tree or boot-tested on Cuttlefish. See [Implemented Code Inventory](docs/IMPLEMENTED_CODE.md).
 
 ## Planned experience
 
-- Custom system UI, launcher, widgets, lock screen, quick settings, and themes
-- Useful system apps and coherent settings
-- Privacy controls and permission visibility
+- Custom SystemUI, lock screen, quick settings, widgets, navigation and theme engine
+- Deeper settings integration and privacy dashboards
+- System apps and carefully integrated platform changes
 - Optional offline AI capabilities
-- Signed-update strategy and platform compatibility testing
+- Signed-update strategy, compatibility testing and device ports
 
 These remain goals until implemented and verified.
 
@@ -66,7 +75,7 @@ The repository includes:
 - `scripts/check-host.sh` — host diagnostic report.
 - `scripts/build-aosp.sh` — guarded build helper for a source checkout and explicitly selected branch target.
 - `scripts/smoke-test-device.sh` — basic ADB boot and system identity smoke test.
-- `scripts/validate-repo.sh` and `scripts/validate-launcher.sh` — repository, shell syntax and starter-module source checks.
+- `scripts/validate-repo.sh`, `scripts/validate-launcher.sh`, and Python resource validators — source-level and repository checks.
 
 Start with [Development Environment](docs/DEVELOPMENT_ENVIRONMENT.md). Inspect scripts before running them. The setup scripts do not sync AOSP source, build the full OS, create signing keys, or flash devices.
 
@@ -78,4 +87,4 @@ AOSP does not automatically include Google's proprietary apps or Google Mobile S
 
 ## Current limitations
 
-A bootable image, production security posture, physical-device port, complete custom SystemUI/settings, offline AI, and Google services integration are **not yet implemented**. The launcher is a first code milestone and still requires an actual AOSP build and device testing.
+A bootable image, production security posture, physical-device port, complete custom SystemUI/settings, offline AI, and Google services integration are **not yet implemented**. The two Android app modules are early milestones and still require a real AOSP compile and device testing.

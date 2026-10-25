@@ -1,27 +1,46 @@
 # Implemented Code Inventory
 
-**Status: first Android application prototype added; full AOSP build and device validation pending.**
+**Status: two Android app prototypes are present; full AOSP build and device validation pending.**
 
 ## Jalvoro Launcher
 
 Location: `packages/apps/JalvoroLauncher/`
 
-The initial Java/Soong module provides a real Android HOME activity with:
-- Localized app labels and UI strings in Android resources.
-- Date and time using the device's locale and time settings.
-- Launchable-app discovery using scoped Android package visibility rather than requesting broad `QUERY_ALL_PACKAGES` access.
-- App icons, alphabetically sorted names, and live text filtering.
-- App launching with basic failure feedback.
-- Density-aware platform layouts and basic focus/content-description support.
+- Android HOME activity.
+- Localized labels and UI strings.
+- Date and time based on device locale/settings.
+- Launchable-app discovery through scoped package visibility.
+- App icons, sorted names, live filtering and app launching.
+- Density-aware layout and basic focus/content descriptions.
 
-### Build and integrate
+## Jalvoro Settings
 
-1. Sync the selected official AOSP release and confirm the exact lunch target.
-2. Keep this module at `packages/apps/JalvoroLauncher` in the AOSP checkout.
-3. Add `JalvoroLauncher` to the chosen product's `PRODUCT_PACKAGES`.
-4. Build the module using `m JalvoroLauncher`, then build the selected product image.
-5. Boot the image in Cuttlefish and verify HOME resolution, app discovery, search, app launch, rotation, accessibility, and package visibility.
+Location: `packages/apps/JalvoroSettings/`
 
-### Explicitly not done yet
+- Jalvoro-branded settings landing page.
+- Sections for Display, Sound, Storage, Wi-Fi, Bluetooth, Privacy, Security, Apps and About.
+- Uses Android's standard settings intents for the underlying configuration.
+- Localized resources, accessibility descriptions and graceful handling for missing target activities.
 
-No AOSP source tree has been synced in this environment. The app has not been compiled, installed, booted, or CTS-tested. The repository's CI performs source/file and shell-syntax checks only; it is not an Android build. This module is the first code milestone, not a bootable Jalvoro OS image. SystemUI, custom settings, framework changes, device integration, update signing, and optional offline AI remain separate engineering work.
+This is a navigation hub, not a replacement for AOSP Settings or custom system services.
+
+## Build and integrate
+
+1. Sync the selected official AOSP release and confirm the exact product/lunch target.
+2. Keep both modules at their respective `packages/apps/` paths in the AOSP checkout.
+3. Add both apps to the selected product's package list:
+
+   ```make
+   PRODUCT_PACKAGES += \
+       JalvoroLauncher \
+       JalvoroSettings
+   ```
+
+4. Build the modules with `m JalvoroLauncher JalvoroSettings`, then build the product image.
+5. Boot the image in Cuttlefish. Verify HOME resolution, app visibility/search/launch, settings destinations, rotation, accessibility, and app behavior on the selected Android branch.
+
+## Validation and limitations
+
+GitHub Actions currently validates repository structure, Bash syntax, Android XML syntax, resource references, launcher package visibility and basic source wiring. **These checks are not an Android compile.**
+
+No AOSP source tree has been synced in this environment. The modules have not been compiled, installed, booted or CTS-tested. A bootable Jalvoro OS image, custom SystemUI, framework changes, device integration, update signing and optional offline AI remain unimplemented. Do not describe the repository as a finished or bootable operating system until the product image is built and verified.
