@@ -9,18 +9,25 @@ required=(
   docs/MASTER_PLAN.md docs/ARCHITECTURE.md
   docs/DEVELOPMENT_ENVIRONMENT.md docs/ANDROID_STACK_MAP.md docs/TESTING.md
   docs/FEATURE_BACKLOG.md docs/DECISIONS.md docs/BUILD_AND_RELEASE.md
-  docs/AI_POLICY.md docs/TEST_MATRIX.md docs/BASELINE.md docs/SYSTEM_SUBSYSTEMS.md
-  docs/IMPLEMENTED_CODE.md
+  docs/AI_POLICY.md docs/TEST_MATRIX.md docs/BASELINE.md docs/SYSTEM_SUBSYSTEMS.md docs/IMPLEMENTED_CODE.md
   scripts/setup-ubuntu.sh scripts/check-host.sh scripts/prepare-wsl.ps1 scripts/build-aosp.sh scripts/smoke-test-device.sh
   scripts/validate-android-resources.py scripts/validate-settings.py
   packages/apps/JalvoroLauncher/Android.bp
   packages/apps/JalvoroLauncher/AndroidManifest.xml
   packages/apps/JalvoroLauncher/src/com/jalvoro/launcher/MainActivity.java
   packages/apps/JalvoroLauncher/res/values/strings.xml
+  packages/apps/JalvoroLauncher/res/values/colors.xml
+  packages/apps/JalvoroLauncher/res/values/styles.xml
+  packages/apps/JalvoroLauncher/res/values-night/colors.xml
+  packages/apps/JalvoroLauncher/res/values-night/styles.xml
   packages/apps/JalvoroSettings/Android.bp
   packages/apps/JalvoroSettings/AndroidManifest.xml
   packages/apps/JalvoroSettings/src/com/jalvoro/settings/MainActivity.java
   packages/apps/JalvoroSettings/res/values/strings.xml
+  packages/apps/JalvoroSettings/res/values/colors.xml
+  packages/apps/JalvoroSettings/res/values/styles.xml
+  packages/apps/JalvoroSettings/res/values-night/colors.xml
+  packages/apps/JalvoroSettings/res/values-night/styles.xml
 )
 
 fail=0
@@ -56,7 +63,6 @@ if ! bash scripts/validate-launcher.sh; then
   printf 'LAUNCHER SOURCE CHECKS FAILED\n' >&2
   fail=1
 fi
-
 if ! python3 scripts/validate-settings.py; then
   printf 'SETTINGS SOURCE CHECKS FAILED\n' >&2
   fail=1
@@ -67,4 +73,4 @@ if [[ "$fail" -ne 0 ]]; then
   exit 1
 fi
 
-echo "Repository structure, Android resource consistency and script syntax checks passed."
+echo "Repository structure, Android day/night resources and script syntax checks passed."
