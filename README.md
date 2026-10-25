@@ -29,6 +29,7 @@ These are goals, not implemented features, until developed and verified.
 
 - [Master plan](docs/MASTER_PLAN.md)
 - [Proposed architecture](docs/ARCHITECTURE.md)
+- [Initial AOSP baseline proposal](docs/BASELINE.md)
 - [Android platform stack map](docs/ANDROID_STACK_MAP.md)
 - [Development environment setup](docs/DEVELOPMENT_ENVIRONMENT.md)
 - [Feature backlog](docs/FEATURE_BACKLOG.md)
