@@ -47,8 +47,16 @@ $SUDO apt-get install -y --no-install-recommends \
 mkdir -p "$HOME/bin" "$HOME/aosp"
 if ! command -v repo >/dev/null 2>&1; then
   echo "The Ubuntu repo package was not found; installing Google's repo launcher in ~/bin."
-  curl -fL https://storage.googleapis.com/git-repo-downloads/repo -o "$HOME/bin/repo"
-  chmod 0755 "$HOME/bin/repo"
+  repo_tmp="$(mktemp)"
+  repo_sig="$(mktemp)"
+  trap 'rm -f "$repo_tmp" "$repo_sig"' EXIT
+  curl -fL https://storage.googleapis.com/git-repo-downloads/repo -o "$repo_tmp"
+  curl -fL https://storage.googleapis.com/git-repo-downloads/repo.asc -o "$repo_sig"
+  gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 8BB9AD793E8E6153AF0F9A4416530D5E920F5C65
+  gpg --verify "$repo_sig" "$repo_tmp"
+  install -m 0755 "$repo_tmp" "$HOME/bin/repo"
+  rm -f "$repo_tmp" "$repo_sig"
+  trap - EXIT
   if ! grep -q 'HOME/bin' "$HOME/.profile" 2>/dev/null; then
     printf '\n# Jalvoro OS tools\nexport PATH="$HOME/bin:$PATH"\n' >> "$HOME/.profile"
   fi
