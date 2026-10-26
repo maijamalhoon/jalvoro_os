@@ -3,9 +3,10 @@
 A launchable, dependency-free Android control hub included in the Jalvoro AOSP prototype.
 
 ## Current behavior
-- Branded, accessible list of common device settings.
+- Branded, accessible settings cards with custom, dependency-free Canvas icons.
 - Delegates Wi-Fi, Bluetooth, display, sound, battery, privacy and device information to Android settings activities.
 - Uses Android light/dark resource selection.
+- Draws distinct Wi-Fi, Bluetooth, display, sound, battery, privacy and information symbols at runtime.
 - No third-party SDKs, network calls, analytics or special permissions.
 
 ## Important boundary

@@ -96,6 +96,16 @@ if not any(
 ):
     fail("Control Center manifest must expose a MAIN + LAUNCHER activity")
 
+# Guard the Control Center's custom icon drawing against accidental regression.
+control_java = (CONTROL / "src/com/jalvoro/controlcenter/MainActivity.java").read_text(encoding="utf-8")
+for required_icon in ("class IconView extends View", "private void wifi(", "private void bluetooth(",
+                      "private void display(", "private void sound(", "private void battery(",
+                      "private void shield(", "private void info("):
+    if required_icon not in control_java:
+        fail(f"Control Center vector icon implementation missing: {required_icon}")
+if "symbolFor(" in control_java:
+    fail("Control Center still uses placeholder text symbols instead of drawn icons")
+
 print(f"Launcher XML valid; {sum(len(v) for v in resources.values())} resource definitions; references and package visibility passed.")
 print(f"Control Center XML valid; {sum(len(v) for v in control_resources.values())} resource definitions; references and launch activity passed.")
 print("Note: these checks are not an AOSP/Soong compile.")
