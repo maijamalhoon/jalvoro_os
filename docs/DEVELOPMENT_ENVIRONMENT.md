@@ -6,6 +6,7 @@ This document defines a reproducible, cautious setup path for the Jalvoro OS AOS
 
 - Installs common Ubuntu host packages used for Android platform development.
 - Adds host preflight scripts for CPU, memory, disk, Java, repo, and KVM checks.
+- Provides a read-only Windows PowerShell readiness report for CPU, RAM, disk space, and WSL.
 - Provides an optional Windows PowerShell helper to request WSL2 + Ubuntu installation.
 - Provides a guarded AOSP source-sync helper that checks available disk space and asks for explicit confirmation.
 - Provides a guarded integration helper to copy Jalvoro apps and the product fragment into an existing AOSP checkout without overwriting existing paths.
@@ -21,6 +22,8 @@ This document defines a reproducible, cautious setup path for the Jalvoro OS AOS
 - NVIDIA RTX graphics is not required for the AOSP platform build; CPU, RAM, storage I/O, and virtualization matter more.
 
 ## 1. Windows option: WSL2 + Ubuntu
+
+Before installing anything, run `scripts/check-windows-host.ps1` from a normal PowerShell window to record your hardware, free space, and WSL state. It is read-only. If RAM is under 16 GB or no single drive has 400 GiB free, do not start a full AOSP sync/build yet; use the repository's lightweight checks while planning access to a suitable Linux workstation or remote build host.
 
 Open PowerShell **as Administrator**, clone the repository on Windows, then run the helper from the repository directory:
 
