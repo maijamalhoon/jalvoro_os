@@ -3,11 +3,16 @@ package com.jalvoro.controlcenter;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
@@ -101,16 +106,12 @@ public final class MainActivity extends Activity {
         card.setClickable(true);
         card.setContentDescription(getString(titleRes) + ". " + getString(descRes));
 
-        TextView symbol = new TextView(this);
-        symbol.setText(symbolFor(titleRes));
-        symbol.setTextColor(color(R.color.accent));
-        symbol.setTextSize(25);
-        symbol.setGravity(Gravity.CENTER);
+        IconView symbol = new IconView(titleRes);
         GradientDrawable symbolBg = new GradientDrawable();
         symbolBg.setColor(color(R.color.accent_soft));
         symbolBg.setCornerRadius(dp(13));
         symbol.setBackground(symbolBg);
-        LinearLayout.LayoutParams symbolParams = new LinearLayout.LayoutParams(dp(38), dp(38));
+        LinearLayout.LayoutParams symbolParams = new LinearLayout.LayoutParams(dp(42), dp(42));
         card.addView(symbol, symbolParams);
 
         TextView title = new TextView(this);
@@ -142,15 +143,97 @@ public final class MainActivity extends Activity {
         grid.addView(card, cardParams);
     }
 
-    private String symbolFor(int titleRes) {
-        if (titleRes == R.string.wifi) return "W";
-        if (titleRes == R.string.bluetooth) return "B";
-        if (titleRes == R.string.display) return "D";
-        if (titleRes == R.string.sound) return "S";
-        if (titleRes == R.string.battery) return "P";
-        if (titleRes == R.string.privacy) return "L";
-        if (titleRes == R.string.about) return "i";
-        return "•";
+    /** Draw lightweight vector-style symbols without third-party dependencies. */
+    private final class IconView extends View {
+        private final int icon;
+        private final Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        IconView(int titleRes) {
+            super(MainActivity.this);
+            icon = titleRes;
+            p.setColor(color(R.color.accent));
+            p.setStyle(Paint.Style.STROKE);
+            p.setStrokeWidth(3.2f);
+            p.setStrokeCap(Paint.Cap.ROUND);
+            p.setStrokeJoin(Paint.Join.ROUND);
+        }
+
+        @Override protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            canvas.save();
+            canvas.scale(getWidth() / 48f, getHeight() / 48f);
+            if (icon == R.string.wifi) wifi(canvas);
+            else if (icon == R.string.bluetooth) bluetooth(canvas);
+            else if (icon == R.string.display) display(canvas);
+            else if (icon == R.string.sound) sound(canvas);
+            else if (icon == R.string.battery) battery(canvas);
+            else if (icon == R.string.privacy) shield(canvas);
+            else info(canvas);
+            canvas.restore();
+        }
+
+        private void wifi(Canvas c) {
+            c.drawArc(new RectF(7, 8, 41, 38), 215, 110, false, p);
+            c.drawArc(new RectF(13, 15, 35, 36), 215, 110, false, p);
+            c.drawArc(new RectF(19, 22, 29, 32), 215, 110, false, p);
+            p.setStyle(Paint.Style.FILL);
+            c.drawCircle(24, 38, 2.4f, p);
+            p.setStyle(Paint.Style.STROKE);
+        }
+
+        private void bluetooth(Canvas c) {
+            Path path = new Path();
+            path.moveTo(24, 5); path.lineTo(24, 43); path.lineTo(36, 32);
+            path.lineTo(14, 13); path.moveTo(14, 35); path.lineTo(36, 16);
+            path.lineTo(24, 5);
+            c.drawPath(path, p);
+        }
+
+        private void display(Canvas c) {
+            c.drawRoundRect(new RectF(5, 8, 43, 34), 4, 4, p);
+            c.drawLine(24, 34, 24, 40, p);
+            c.drawLine(15, 41, 33, 41, p);
+        }
+
+        private void sound(Canvas c) {
+            Path speaker = new Path();
+            speaker.moveTo(7, 19); speaker.lineTo(15, 19); speaker.lineTo(25, 11);
+            speaker.lineTo(25, 37); speaker.lineTo(15, 29); speaker.lineTo(7, 29);
+            speaker.close();
+            c.drawPath(speaker, p);
+            c.drawArc(new RectF(19, 11, 39, 37), -60, 120, false, p);
+            c.drawArc(new RectF(23, 5, 45, 43), -60, 120, false, p);
+        }
+
+        private void battery(Canvas c) {
+            c.drawRoundRect(new RectF(5, 13, 39, 35), 4, 4, p);
+            c.drawRoundRect(new RectF(39, 20, 43, 28), 1, 1, p);
+            Path bolt = new Path();
+            bolt.moveTo(25, 16); bolt.lineTo(18, 25); bolt.lineTo(24, 25);
+            bolt.lineTo(21, 32); bolt.lineTo(30, 22); bolt.lineTo(24, 22);
+            bolt.close();
+            p.setStyle(Paint.Style.FILL);
+            c.drawPath(bolt, p);
+            p.setStyle(Paint.Style.STROKE);
+        }
+
+        private void shield(Canvas c) {
+            Path path = new Path();
+            path.moveTo(24, 5); path.lineTo(40, 11); path.lineTo(38, 27);
+            path.quadTo(34, 37, 24, 43); path.quadTo(14, 37, 10, 27);
+            path.lineTo(8, 11); path.close();
+            c.drawPath(path, p);
+            c.drawLine(17, 24, 22, 29, p);
+            c.drawLine(22, 29, 32, 18, p);
+        }
+
+        private void info(Canvas c) {
+            c.drawCircle(24, 24, 18, p);
+            p.setStyle(Paint.Style.FILL);
+            c.drawCircle(24, 15, 2, p);
+            p.setStyle(Paint.Style.STROKE);
+            c.drawLine(24, 22, 24, 33, p);
+        }
     }
 
     private void openSettings(String action) {
