@@ -85,6 +85,7 @@ These remain goals until implemented and verified.
 ## Development setup
 
 The repository includes:
+- `scripts/check-windows-host.ps1` — read-only Windows CPU/RAM/disk/WSL readiness report.
 - `scripts/prepare-wsl.ps1` — optional Windows helper to request WSL2 + Ubuntu installation.
 - `scripts/setup-ubuntu.sh` — interactive Ubuntu dependency bootstrap.
 - `scripts/check-host.sh` — host diagnostic report.
